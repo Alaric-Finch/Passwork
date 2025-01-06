@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Efekt losowego hasła</title>
+    <style>
+        #password {
+            font-family: monospace;
+            font-size: 24px;
+            letter-spacing: 2px;
+            white-space: pre;
+        }
+        button {
+            margin-top: 10px;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="password">********</div>
+    <button onclick="revealPassword()">Pokaż hasło</button>
+
+    <script>
+        const originalPassword = "MojeHaslo123";
+        const passwordElement = document.getElementById('password');
+
+        function randomChar() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
+            return chars[Math.floor(Math.random() * chars.length)];
+        }
+
+        function revealPassword() {
+            let revealed = Array(originalPassword.length).fill('*');
+            let index = 0;
+
+            const interval = setInterval(() => {
+                for (let i = index; i < originalPassword.length; i++) {
+                    revealed[i] = randomChar();
+                }
+                passwordElement.textContent = revealed.join('');
+
+                if (index < originalPassword.length) {
+                    revealed[index] = originalPassword[index];
+                    index++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 100); // Zmiana litery co 100ms
+        }
+    </script>
+</body>
+</html>
